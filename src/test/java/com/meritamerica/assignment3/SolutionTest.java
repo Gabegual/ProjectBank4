@@ -51,7 +51,7 @@ public class SolutionTest {
 
     @Test
     public void testCreateAccountHolder(){
-        AccountHolder accountHolder = new AccountHolder(
+        AccountHolderTemplate accountHolder = new AccountHolderTemplate(
         	"Sadiq",
         	"",
         	"Manji",
@@ -68,33 +68,33 @@ public class SolutionTest {
 
     @Test
     public void testDepositPositiveAmountInCheckingAccount(){
-    	AccountHolder accountHolder = new AccountHolder(
+    	AccountHolderTemplate accountHolder = new AccountHolderTemplate(
             	"Sadiq",
             	"",
             	"Manji",
             	"123456789");
     	
-    	CheckingAccount checkingAccount = accountHolder.addCheckingAccount(0);
+    	CheckingAccountTemplate checkingAccount = accountHolder.addCheckingAccount(0);
         
         assertEquals(true, checkingAccount.deposit(500.0));
     }
 
     @Test
     public void testDepositNegativeAmountInCheckingAccount(){
-    	AccountHolder accountHolder = new AccountHolder(
+    	AccountHolderTemplate accountHolder = new AccountHolderTemplate(
             	"Sadiq",
             	"",
             	"Manji",
             	"123456789");
     	
-    	CheckingAccount checkingAccount = accountHolder.addCheckingAccount(500);
+    	CheckingAccountTemplate checkingAccount = accountHolder.addCheckingAccount(500);
         
         assertEquals(false, checkingAccount.deposit(-500.0));
     }
 
     @Test
     public void testDepositPositiveAmountInSavingsAccount(){
-    	AccountHolder accountHolder = new AccountHolder(
+    	AccountHolderTemplate accountHolder = new AccountHolderTemplate(
             	"Sadiq",
             	"",
             	"Manji",
@@ -107,7 +107,7 @@ public class SolutionTest {
 
     @Test
     public void testDepositNegativeAmountInSavingsAccount(){
-    	AccountHolder accountHolder = new AccountHolder(
+    	AccountHolderTemplate accountHolder = new AccountHolderTemplate(
             	"Sadiq",
             	"",
             	"Manji",
@@ -120,20 +120,20 @@ public class SolutionTest {
 
     @Test
     public void testWithdrawAmountExceedingBalanceInCheckingAccount(){
-    	AccountHolder accountHolder = new AccountHolder(
+    	AccountHolderTemplate accountHolder = new AccountHolderTemplate(
             	"Sadiq",
             	"",
             	"Manji",
             	"123456789");
     	
-    	CheckingAccount checkingAccount = accountHolder.addCheckingAccount(50);
+    	CheckingAccountTemplate checkingAccount = accountHolder.addCheckingAccount(50);
         
         assertEquals(false, checkingAccount.withdraw(500.0));
     }
 
     @Test
     public void testWithdrawAmountExceedingBalanceInSavingsAccount(){
-    	AccountHolder accountHolder = new AccountHolder(
+    	AccountHolderTemplate accountHolder = new AccountHolderTemplate(
             	"Sadiq",
             	"",
             	"Manji",
@@ -146,33 +146,33 @@ public class SolutionTest {
     
     @Test
     public void testWithdrawFromCDAccount(){
-    	AccountHolder accountHolder = new AccountHolder(
+    	AccountHolderTemplate accountHolder = new AccountHolderTemplate(
             	"Sadiq",
             	"",
             	"Manji",
             	"123456789");
     	
-    	CDAccount cdAccount = accountHolder.addCDAccount(new CDOffering(5, 0.03), 10000);
+    	CDAccountTemplate cdAccount = accountHolder.addCDAccount(new CDOfferingTemplate(5, 0.03), 10000);
         
         assertEquals(false, cdAccount.withdraw(500.0));
     }
     
     @Test
     public void testDepositIntoCDAccount(){
-    	AccountHolder accountHolder = new AccountHolder(
+    	AccountHolderTemplate accountHolder = new AccountHolderTemplate(
             	"Sadiq",
             	"",
             	"Manji",
             	"123456789");
     	
-    	CDAccount cdAccount = accountHolder.addCDAccount(new CDOffering(5, 0.03), 10000);
+    	CDAccountTemplate cdAccount = accountHolder.addCDAccount(new CDOfferingTemplate(5, 0.03), 10000);
         
         assertEquals(false, cdAccount.deposit(500.0));
     }
 
     @Test
     public void testFutureValueInSavingsAccount(){
-        AccountHolder accountHolder = new AccountHolder(
+        AccountHolderTemplate accountHolder = new AccountHolderTemplate(
         	"Sadiq",
         	"",
         	"Manji",
@@ -187,13 +187,13 @@ public class SolutionTest {
 
     @Test
     public void testFutureValueInCheckingAccount(){
-        AccountHolder accountHolder = new AccountHolder(
+        AccountHolderTemplate accountHolder = new AccountHolderTemplate(
         	"Sadiq",
         	"",
         	"Manji",
         	"123456789");
         
-        CheckingAccount checkingAccount = accountHolder.addCheckingAccount(100);
+        CheckingAccountTemplate checkingAccount = accountHolder.addCheckingAccount(100);
 
         double fv = 100.0 * Math.pow(1 + 0.0001, 3);
         
@@ -202,13 +202,13 @@ public class SolutionTest {
     
     @Test
     public void testFutureValueInCDAccount(){
-        AccountHolder accountHolder = new AccountHolder(
+        AccountHolderTemplate accountHolder = new AccountHolderTemplate(
         	"Sadiq",
         	"",
         	"Manji",
         	"123456789");
         
-        CDAccount cdAccount = accountHolder.addCDAccount(new CDOffering(5, 0.03), 10000);
+        CDAccountTemplate cdAccount = accountHolder.addCDAccount(new CDOfferingTemplate(5, 0.03), 10000);
 
         double fv = 10000.0 * Math.pow(1 + 0.03, 5);
         
@@ -217,7 +217,7 @@ public class SolutionTest {
     
     @Test
     public void testSuccessfulReadCDOfferingFromString(){
-        CDOffering cdOffering = CDOffering.readFromString("3,0.019");
+        CDOfferingTemplate cdOffering = CDOfferingTemplate.readFromString("3,0.019");
         
         assertEquals(3, cdOffering.getTerm());
         assertEquals(0.019, cdOffering.getInterestRate(), 0);
@@ -226,7 +226,7 @@ public class SolutionTest {
     @Test
     public void testFailedReadCDOfferingFromString1(){
     	exceptionRule.expect(NumberFormatException.class);
-        CDOffering cdOffering = CDOffering.readFromString("30.019");
+        CDOfferingTemplate cdOffering = CDOfferingTemplate.readFromString("30.019");
         
         assertEquals(null, cdOffering);
     }
@@ -234,13 +234,13 @@ public class SolutionTest {
     @Test
     public void testFailedReadCDOfferingFromString2(){
     	exceptionRule.expect(NumberFormatException.class);
-        CDOffering.readFromString("a,0.019");
+        CDOfferingTemplate.readFromString("a,0.019");
     }
     
     @Test
     public void testFailedReadCDOfferingFromString3(){
     	exceptionRule.expect(NumberFormatException.class);
-        CDOffering.readFromString("3,b");
+        CDOfferingTemplate.readFromString("3,b");
     }
     
     @Test
@@ -248,7 +248,7 @@ public class SolutionTest {
     	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
     	Date date = dateFormatter.parse("01/01/2020");
     	
-        CheckingAccount checkingAccount = CheckingAccount.readFromString("82,1000,0.00015,01/01/2020");
+        CheckingAccountTemplate checkingAccount = CheckingAccountTemplate.readFromString("82,1000,0.00015,01/01/2020");
         
         assertEquals(82, checkingAccount.getAccountNumber());
         assertEquals(1000.0, checkingAccount.getBalance(), 0);
@@ -259,7 +259,7 @@ public class SolutionTest {
     @Test
     public void testFailedReadCheckingAccountFromString1() throws ParseException{
     	exceptionRule.expect(NumberFormatException.class);
-    	CheckingAccount checkingAccount = CheckingAccount.readFromString("82,1000,0.0001501/01/2020");
+    	CheckingAccountTemplate checkingAccount = CheckingAccountTemplate.readFromString("82,1000,0.0001501/01/2020");
         
         assertEquals(null, checkingAccount);
     }
@@ -267,7 +267,7 @@ public class SolutionTest {
     @Test
     public void testFailedReadCheckingAccountFromString2() throws ParseException{
     	exceptionRule.expect(NumberFormatException.class);
-    	CheckingAccount.readFromString("a,1000,0.00015,01/01/2020");
+    	CheckingAccountTemplate.readFromString("a,1000,0.00015,01/01/2020");
     }
     
     @Test
@@ -300,7 +300,7 @@ public class SolutionTest {
     	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
     	Date date = dateFormatter.parse("01/03/2020");
     	
-        CDAccount cdAccount = CDAccount.readFromString("84,20000,0.03,01/03/2020,5");
+        CDAccountTemplate cdAccount = CDAccountTemplate.readFromString("84,20000,0.03,01/03/2020,5");
         
         assertEquals(84, cdAccount.getAccountNumber());
         assertEquals(20000.0, cdAccount.getBalance(), 0);
@@ -312,24 +312,24 @@ public class SolutionTest {
     @Test
     public void testFailedReadCDAccountFromString1() throws ParseException{
     	exceptionRule.expect(NumberFormatException.class);
-    	CDAccount.readFromString("82,1000,0.0001501/01/2020,5");
+    	CDAccountTemplate.readFromString("82,1000,0.0001501/01/2020,5");
     }
     
     @Test
     public void testFailedReadCDAccountFromString2() throws ParseException{
     	exceptionRule.expect(NumberFormatException.class);
-    	CDAccount.readFromString("a,1000,0.00015,01/01/2020,5");
+    	CDAccountTemplate.readFromString("a,1000,0.00015,01/01/2020,5");
     }
     
     @Test
     public void testSuccessfullyReadFromFile() {
-    	boolean result = MeritBank.readFromFile("src/test/testMeritBank_good.txt");
+    	boolean result = MeritBankTemplate.readFromFile("src/test/testMeritBank_good.txt");
     	
     	assertEquals(true, result);
-    	assertEquals(11, MeritBank.getNextAccountNumber());
-    	assertEquals(3, MeritBank.getCDOfferings().length);
+    	assertEquals(11, MeritBankTemplate.getNextAccountNumber());
+    	assertEquals(3, MeritBankTemplate.getCDOfferings().length);
     	
-    	AccountHolder[] sortedAccountHolders = MeritBank.sortAccountHolders();    	
+    	AccountHolderTemplate[] sortedAccountHolders = MeritBankTemplate.getAccountHolders();    	
     	
     	assertEquals(36400, sortedAccountHolders[0].getCombinedBalance(), 0);
     	assertEquals(161000, sortedAccountHolders[1].getCombinedBalance(), 0);
@@ -337,14 +337,14 @@ public class SolutionTest {
     }
     
     @Test
-    public void testFailedReadFromFile() {    	
-    	boolean result = MeritBank.readFromFile("src/test/testMeritBank_good.txt");
+    public void testFailedReadFromFile(){    	
+    	boolean result = MeritBankTemplate.readFromFile("src/test/testMeritBank_good.txt");
     	assertEquals(true, result);
     	
-    	result = MeritBank.readFromFile("src/test/testMeritBank_bad.txt");
+    	result = MeritBankTemplate.readFromFile("src/test/testMeritBank_bad.txt");
     	assertEquals(false, result);
 
-    	assertEquals(11, MeritBank.getNextAccountNumber());
-    	assertEquals(3, MeritBank.getCDOfferings().length);
+    	assertEquals(11, MeritBankTemplate.getNextAccountNumber());
+    	assertEquals(3, MeritBankTemplate.getCDOfferings().length);
     }
 }
