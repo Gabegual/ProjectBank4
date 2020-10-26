@@ -2,11 +2,11 @@ package com.meritamerica.assignment3;
 
 import java.text.ParseException;
 
-public class CDOfferingTemplate {
+public class CDOffering {
 	private int term;
 	private double interestRate;
 
-	public CDOfferingTemplate(int term, double interestRate){
+	public CDOffering(int term, double interestRate){
 		this.term = term;
 		this.interestRate = interestRate;
 	}
@@ -19,11 +19,11 @@ public class CDOfferingTemplate {
 		return interestRate;
 	}
 
-    static CDOfferingTemplate readFromString(String cdOfferingDataString) {
+    static CDOffering readFromString(String cdOfferingDataString) {
     	String[] holding = cdOfferingDataString.split(",");
     	int term = Integer.parseInt(holding[0]);
     	double interestRate = Double.parseDouble(holding[1]);
-    	return new CDOfferingTemplate(term, interestRate);
+    	return new CDOffering(term, interestRate);
     }
 
     public String writeToString() {

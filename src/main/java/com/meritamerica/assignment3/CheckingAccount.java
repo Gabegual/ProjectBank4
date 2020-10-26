@@ -4,15 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-class CheckingAccountTemplate extends BankAccountTemplate {
+class CheckingAccount extends BankAccount {
 	
 	public static final double INTEREST_RATE = 0.0001;
 	
-	public CheckingAccountTemplate(double openBalance, double interestRate){
+	public CheckingAccount(double openBalance, double interestRate){
 		super(openBalance, interestRate); 
 	}
 	
-	public CheckingAccountTemplate (long accountNumber, double openBalance, double interestRate, Date accountOpenedOn) {
+	public CheckingAccount (long accountNumber, double openBalance, double interestRate, Date accountOpenedOn) {
 		super(accountNumber, openBalance, interestRate, accountOpenedOn);
 	}
 
@@ -43,7 +43,7 @@ class CheckingAccountTemplate extends BankAccountTemplate {
 		
 	}
 
-	public static CheckingAccountTemplate readFromString(String accountData)throws ParseException {
+	public static CheckingAccount readFromString(String accountData)throws ParseException {
     	
     		String [] holding = accountData.split(",");
     		SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
@@ -52,7 +52,7 @@ class CheckingAccountTemplate extends BankAccountTemplate {
     		double balance = Double.parseDouble(holding[1]);
     		double interestRate = Double.parseDouble(holding[2]);
     		Date accountOpenedOn = date.parse(holding[3]);
-    		CheckingAccountTemplate newCheckingAccount = new CheckingAccountTemplate(accountNumber, balance, interestRate, accountOpenedOn);
+    		CheckingAccount newCheckingAccount = new CheckingAccount(accountNumber, balance, interestRate, accountOpenedOn);
     		return newCheckingAccount;
     }   
 } 	

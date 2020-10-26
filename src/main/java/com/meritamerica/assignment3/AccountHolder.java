@@ -1,29 +1,29 @@
 package com.meritamerica.assignment3;
 
-public class AccountHolderTemplate implements Comparable<AccountHolderTemplate>  {
+public class AccountHolder implements Comparable<AccountHolder>  {
 	
 	private String firstName;
 	private String middleName;
 	private String lastName;
 	private String ssn;
-	CheckingAccountTemplate[] checkingArray = new CheckingAccountTemplate[0];
+	CheckingAccount[] checkingArray = new CheckingAccount[0];
 	SavingsAccount[] savingsArray = new SavingsAccount[0];
-	CDAccountTemplate[] cdAccountArray = new CDAccountTemplate[0];
+	CDAccount[] cdAccountArray = new CDAccount[0];
 	
-	public AccountHolderTemplate(String first, String middle, String last, String ssn) {
+	public AccountHolder(String first, String middle, String last, String ssn) {
 		this.firstName = first;
 		this.middleName = middle;
 		this.lastName = last;
 		this.ssn = ssn;
 	}
 
-	public CheckingAccountTemplate addCheckingAccount(double openBalance) {
+	public CheckingAccount addCheckingAccount(double openBalance) {
 		if(getCheckingBalance() + getSavingsBalance() + openBalance >= 250000) {
 			System.out.println("Cannot open a new Checking Account because aggregate balance of accounts is to high.");
 			return null;
 		}
-		CheckingAccountTemplate newA = new CheckingAccountTemplate(openBalance, CheckingAccountTemplate.INTEREST_RATE);
-		CheckingAccountTemplate[] newCheckingArray = new CheckingAccountTemplate[checkingArray.length+1];
+		CheckingAccount newA = new CheckingAccount(openBalance, CheckingAccount.INTEREST_RATE);
+		CheckingAccount[] newCheckingArray = new CheckingAccount[checkingArray.length+1];
 			for (int i = 0; i < newCheckingArray.length - 1; i++) {
 				newCheckingArray[i] = checkingArray[i];
 			}
@@ -32,13 +32,13 @@ public class AccountHolderTemplate implements Comparable<AccountHolderTemplate> 
 		return newA;
 	}
 	
-	public boolean addCheckingAccount(CheckingAccountTemplate checkingAccount) {
+	public boolean addCheckingAccount(CheckingAccount checkingAccount) {
 		try {
 		if(checkingAccount.getBalance() + getCheckingBalance() + getSavingsBalance() >= 250000) {
 			System.out.println("Cannot open a new Checking Account because aggregate balance of accounts is to high.");
 			return false;
 		}
-		CheckingAccountTemplate[] newCheckingArray = new CheckingAccountTemplate[checkingArray.length+1];
+		CheckingAccount[] newCheckingArray = new CheckingAccount[checkingArray.length+1];
 			for (int i = 0; i < newCheckingArray.length-1; i++) {
 				newCheckingArray[i] = checkingArray[i];
 			}
@@ -55,7 +55,7 @@ public class AccountHolderTemplate implements Comparable<AccountHolderTemplate> 
 	public double getCheckingBalance() {
 		double total = 0.0;
 		int i;
-			for(CheckingAccountTemplate balance: checkingArray) {
+			for(CheckingAccount balance: checkingArray) {
 				total += balance.getBalance();
 			}
 		return total;
@@ -107,9 +107,9 @@ public class AccountHolderTemplate implements Comparable<AccountHolderTemplate> 
 
 	}
 	
-	public CDAccountTemplate addCDAccount(CDOfferingTemplate offering, double openBalance) {
-		CDAccountTemplate newA = new CDAccountTemplate(offering, openBalance);
-		CDAccountTemplate[] newCDArray = new CDAccountTemplate[cdAccountArray.length+1];
+	public CDAccount addCDAccount(CDOffering offering, double openBalance) {
+		CDAccount newA = new CDAccount(offering, openBalance);
+		CDAccount[] newCDArray = new CDAccount[cdAccountArray.length+1];
 			for (int i = 0; i < newCDArray.length-1; i++) {
 				newCDArray[i] = cdAccountArray[i];
 			}
@@ -118,8 +118,8 @@ public class AccountHolderTemplate implements Comparable<AccountHolderTemplate> 
 		return newA;
 	}
 	
-	public CDAccountTemplate addCDAccount(CDAccountTemplate cdAccount) {
-		CDAccountTemplate[] newCDArray = new CDAccountTemplate[cdAccountArray.length+1];
+	public CDAccount addCDAccount(CDAccount cdAccount) {
+		CDAccount[] newCDArray = new CDAccount[cdAccountArray.length+1];
 			for (int i = 0; i < newCDArray.length-1; i++) {
 			       newCDArray[i] = cdAccountArray[i];
 			}
@@ -128,7 +128,7 @@ public class AccountHolderTemplate implements Comparable<AccountHolderTemplate> 
 		return cdAccount;
 	}
 
-	public CDAccountTemplate[] getCDAccounts() {
+	public CDAccount[] getCDAccounts() {
 		return cdAccountArray;
 	}
 
@@ -138,7 +138,7 @@ public class AccountHolderTemplate implements Comparable<AccountHolderTemplate> 
 
 	public double getCDBalance() {
 		double total = 0.0;
-			for(CDAccountTemplate balance : cdAccountArray) {
+			for(CDAccount balance : cdAccountArray) {
 				total += balance.getBalance();
 			}
 		return total;
@@ -149,7 +149,7 @@ public class AccountHolderTemplate implements Comparable<AccountHolderTemplate> 
 	}
 	
 	@Override
-	public int compareTo(AccountHolderTemplate account) {
+	public int compareTo(AccountHolder account) {
 		if(this.getCombinedBalance() > account.getCombinedBalance()) {
 			return 1;
 		} else {
@@ -189,7 +189,7 @@ public class AccountHolderTemplate implements Comparable<AccountHolderTemplate> 
 		this.ssn = ssn;
 	}
 	
-	public CheckingAccountTemplate[] getCheckingAccounts() {
+	public CheckingAccount[] getCheckingAccounts() {
 		return checkingArray;
 	}
 	
@@ -206,13 +206,13 @@ public class AccountHolderTemplate implements Comparable<AccountHolderTemplate> 
     	return accountHolderData.toString();
     }
 
-	public static AccountHolderTemplate readFromString(String accountHolderData) {
+	public static AccountHolder readFromString(String accountHolderData) {
 	    String[] holding = accountHolderData.split(",");
 	    String firstName = holding[0];
 	    String middleName = holding[1];
 	    String lastName = holding[2];
 	    String ssn = holding[3];	
-	    return new AccountHolderTemplate(firstName, middleName, lastName, ssn);
+	    return new AccountHolder(firstName, middleName, lastName, ssn);
 	}
 	public String toString() {
 		return  "Combined Balance for Account Holder" + this.getCombinedBalance();	
